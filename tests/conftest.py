@@ -3,20 +3,24 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
+from selenium.webdriver.edge.service import Service
+
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import pytest
 from pages.product import product_page
+
+
 @pytest.fixture()
-
-
 def ohrm():
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
+    options.add_argument("--no-sandbox")
 
-    driver = webdriver.Edge(options=options)
+    service = Service(EdgeChromiumDriverManager().install())
+    driver = webdriver.Edge(service=service, options=options)
     driver.get("https://automationexercise.com")
-    driver.maximize_window()
     yield driver
     driver.quit()
 
@@ -38,3 +42,4 @@ def pytest_runtest_makereport(item, call):
             screenshot_path = os.path.join(screenshots_dir, screenshot_name)
 
             driver.save_screenshot(screenshot_path)
+
