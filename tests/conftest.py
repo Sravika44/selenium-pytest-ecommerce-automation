@@ -4,8 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.edge.service import Service
-
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import pytest
 from pages.product import product_page
 
@@ -18,9 +16,12 @@ def ohrm():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("--no-sandbox")
 
-    service = Service(EdgeChromiumDriverManager().install())
+    # EdgeDriver is already in PATH
+    service = Service()  
+
     driver = webdriver.Edge(service=service, options=options)
     driver.get("https://automationexercise.com")
+
     yield driver
     driver.quit()
 
