@@ -2,13 +2,20 @@ import os
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.edge.options import Options
 import pytest
 from pages.product import product_page
 @pytest.fixture()
 
+
 def ohrm():
-    driver=webdriver.Edge()
-    driver.get("https://automationexercise.com/?utm_source=chatgpt.com")
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
+
+    driver = webdriver.Edge(options=options)
+    driver.get("https://automationexercise.com")
     driver.maximize_window()
     yield driver
     driver.quit()
