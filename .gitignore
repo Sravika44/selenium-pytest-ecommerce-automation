@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+
+# Pytest
+.pytest_cache/
+
+# Reports (generated files)
+reports/report.html
+reports/screenshots/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,33 @@
+import os
+from datetime import datetime
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import pytest
+from pages.product import product_page
+@pytest.fixture()
+
+def ohrm():
+    driver=webdriver.Edge()
+    driver.get("https://automationexercise.com/?utm_source=chatgpt.com")
+    driver.maximize_window()
+    yield driver
+    driver.quit()
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+
+    # Only on test failure
+    if rep.when == "call" and rep.failed:
+        driver = item.funcargs.get("ohrm")
+        if driver:
+            screenshots_dir = os.path.join(os.getcwd(), "reports", "screenshots")
+            os.makedirs(screenshots_dir, exist_ok=True)
+
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            screenshot_name = f"{item.name}_{timestamp}.png"
+            screenshot_path = os.path.join(screenshots_dir, screenshot_name)
+
+            driver.save_screenshot(screenshot_path)
