@@ -17,8 +17,7 @@ def ohrm():
     options.add_argument("--no-sandbox")
 
     # EdgeDriver is already in PATH
-    service = Service()  
-
+    service = Service(executable_path=r"C:\Users\DELL\OneDrive\Desktop\Webdrivers\msedgedriver.exe")
     driver = webdriver.Edge(service=service, options=options)
     driver.get("https://automationexercise.com")
 
